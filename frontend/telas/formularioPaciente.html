@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário de Saúde - Cuidado Puro</title>
+    <link rel="stylesheet" href="/css/formularioPaciente.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html"><img src="/telas/img/logo_(2).png" alt="Logo"></a>
+            <a href="../index.html" class="logo-text">Cuidado Puro</a>
+
+        </div>
+
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/index.html">Início</a></li>
+                <li><a href="/telas/beneficios.html">Benefícios</a></li>
+                <li><a href="/telas/sobre.html">Sobre</a></li>
+                <li><a href="/telas/opinioes.html">Opiniões</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+
+        <button href="telaLogin.html" class="btn-login">Entrar</button>
+    </header>
+
+    <main class="form-container">
+
+        <div class="form-header">
+            <h1>Formulario do paciente</h1>
+            <p>Responda às questões abaixo para mapearmos o histórico clínico e definirmos o nível de monitoramento
+                preventivo ideal.</p>
+        </div>
+
+        <div class="quiz-card">
+            <form id="formPaciente" action="#" method="POST">
+
+                <div class="form-section">
+                    <h2 class="section-title">Dados Clínicos Iniciais</h2>
+
+                    <div class="input-grid">
+                        <div class="field-group">
+                            <label for="paciente-nome">Nome do Paciente/Assistido</label>
+                            <input type="text" id="paciente-nome" placeholder="Ex: Maria Carmo Silva" required>
+                        </div>
+                        <div class="field-group">
+                            <label for="paciente-idade">Idade</label>
+                            <input type="number" id="paciente-idade" placeholder="Ex: 78" required>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="condicao-principal">Condição de Saúde Principal / Diagnóstico</label>
+                        <select id="condicao-principal" required>
+                            <option value="" disabled selected>Selecione a condição principal...</option>
+                            <option value="idoso-limitacao">Pessoa Idosa com Redução de Mobilidade</option>
+                            <option value="pos-cirurgico">Recuperação Pós-Cirúrgica (Home Care)</option>
+                            <option value="necessidade-especial">Portador de Necessidades Especiais Crônicas</option>
+                            <option value="neurodegenerativa">Condição Neurodegenerativa (Alzheimer/Parkinson)</option>
+                            <option value="outros">Outras Demandas de Suporte Diário</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Nível de Suporte e Dependência</h2>
+                    <label style="font-size: 0.95rem; opacity: 0.9;">Qual é o grau de assistência diária necessário para
+                        a rotina?</label>
+
+                    <div class="selection-grid">
+                        <label class="selection-option">
+                            <input type="radio" name="nivel-suporte" value="basico" checked>
+                            <div class="selection-box">
+                                <span>🟢</span>
+                                Suporte Básico
+                                <p style="font-size:0.75rem; font-weight:300; margin-top:5px; opacity:0.8;">Apenas
+                                    monitoramento preventivo e lembretes.</p>
+                            </div>
+                        </label>
+
+                        <label class="selection-option">
+                            <input type="radio" name="nivel-suporte" value="intermediario">
+                            <div class="selection-box">
+                                <span>🟡</span>
+                                Intermediário
+                                <p style="font-size:0.75rem; font-weight:300; margin-top:5px; opacity:0.8;">Ajuda para
+                                    locomoção, higiene e medicamentos.</p>
+                            </div>
+                        </label>
+
+                        <label class="selection-option">
+                            <input type="radio" name="nivel-suporte" value="intensivo">
+                            <div class="selection-box">
+                                <span>🔴</span>
+                                Monitoramento 24/7
+                                <p style="font-size:0.75rem; font-weight:300; margin-top:5px; opacity:0.8;">Assistência
+                                    contínua, cuidados médicos e alertas ativos.</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Histórico de Alergias e Cuidados Especiais</h2>
+                    <div class="field-group">
+                        <label for="observacoes">Liste restrições alimentares, alergias a medicamentos ou cuidados
+                            específicos:</label>
+                        <textarea id="observacoes" rows="4"
+                            placeholder="Ex: Alergia a Dipirona. Necessita de auxílio total para transferências da cama para a cadeira de rodas..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-back">Voltar</button>
+                    <button type="submit" class="btn-cadastrar button">Finalizar Cadastro</button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+    <script src="../js/formularioPaciente.js"></script>
+</body>
+
+</html>
