@@ -6,6 +6,7 @@ from pydantic import BaseModel
 import models
 import schemas
 from database import SessionLocal, engine, Base
+from fastapi.staticfiles import StaticFiles
 
 # Criar as tabelas no banco de dados (MySQL / MariaDB)
 models.Base.metadata.create_all(bind=engine)
@@ -16,6 +17,8 @@ app = FastAPI(
     description="Sistema completo para controlar clientes e profissionais",
     version="1.0.0"
 )
+
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 # ==================== CONFIGURAÇÃO DE CORS ====================
 # Permite que o seu front-end (HTML/JS) faça requisições para a API sem bloqueios
