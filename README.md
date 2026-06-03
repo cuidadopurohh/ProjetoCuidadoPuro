@@ -20,7 +20,7 @@ Este repositório contém o backend FastAPI e um placeholder de frontend estáti
 1. Crie um serviço do tipo **Static Site**.
 2. Defina:
    - `Root Directory`: `/`
-   - `Publish Directory`: `frontend`
+   - `Publish Directory`: `static`
 
 ## Banco de dados Neon
 
@@ -29,4 +29,4 @@ O backend já está preparado para ler `DATABASE_URL` do ambiente. Em Render, co
 ## Observações
 
 - A pasta `venv/` não deve ser enviada para o repo; ela está no `.gitignore`.
-- O `frontend/` atual é um placeholder e pode ser substituído pelo seu código real.
+- O `static/` atual é um placeholder e pode ser substituído pelo seu código real.
