@@ -14,7 +14,7 @@ Este repositório contém o backend FastAPI e um placeholder de frontend estáti
    - `Start Command`: `uvicorn main:app --host 0.0.0.0 --port $PORT`
 4. Adicione a variável de ambiente no Render para o serviço backend:
    - `DATABASE_URL`
-   - valor: `postgresql://neondb_owner:npg_bIga8HieqFn7@ep-dawn-truth-acuzigkq.sa-east-1.aws.neon.tech/neondb?sslmode=require`
+   - valor: `postgresql://neondb_owner:npg_bIga8HieqFn7@ep-dawn-truth-acuzigkq-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require`
 
 > Importante: o backend não usa o arquivo `.env` no Render. O valor precisa ser definido nas configurações do serviço.
 
