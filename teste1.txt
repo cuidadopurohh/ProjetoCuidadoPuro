@@ -1,0 +1,21 @@
+{
+  "nome_cliente": "Matheus F.",
+  "rg_cliente": 123456,
+  "cpf_cliente": 10085274196,
+  "endereco_cliente": "Av Mandacaru, 85",
+  "telefone_cliente": 4488963541,
+  "idade_cliente": 28,
+  "email_cliente": "felipematheus@escola.pr.gov",
+  "senha_cliente": "teste123"
+}
+
+{
+  "nome_profissional": "Aline Oliveira",
+  "rg_profissional": 147258369,
+  "cpf_profissional": 32165498785,
+  "endereco_profissional": "Av das Torres, 658",
+  "telefone_profissional": 4488835984,
+  "idade_profissional": 22,
+  "email_profissional": "aline@gmail.com",
+  "senha_profissional": "aline123"
+}

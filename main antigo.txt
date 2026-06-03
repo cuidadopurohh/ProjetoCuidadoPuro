@@ -1,0 +1,127 @@
+from fastapi import FastAPI, HTTPException, Depends
+from sqlalchemy.orm import Session
+from typing import List
+import models
+import schemas
+from database import SessionLocal, engine, Base
+
+# Criar as tabelas no banco
+models.Base.metadata.create_all(bind=engine)
+
+# Criar a aplicação FastAPI
+app = FastAPI(
+    title="API do Projeto Cuidado Puro",
+    description="Sistema completo para controlar clientes",
+    version="1.0.0"
+)
+
+# Dependência para obter a sessão do banco
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# ==================== ENDPOINTS CLIENTES ====================
+
+@app.get("/")
+def home():
+    """Página inicial"""
+    return {
+        "mensagem": "Bem-vindo à API do Cuidado Puro! ",
+        "endpoints_disponiveis": {
+            "GET /Clientes": "Listar todos os Clientes",
+            "GET /Clientes/{id}": "Buscar um Cliente específico",
+            "GET /Clientes/busca/{nome_cliente}": "Buscar Cliente por nome",
+            "POST /Clientes": "Cadastrar um novo Cliente",
+            "PUT /Clientes/{id}": "Atualizar um Cliente existente",
+            "DELETE /Clientes/{id}": "Remover um Cliente"
+        }
+    } 
+
+@app.post("/Clientes", tags=["Clientes"], response_model=schemas.ClienteResponse, status_code=201)
+def cadastro_cliente(cliente: schemas.ClienteCreate, db: Session = Depends(get_db)):
+    """POST - Cadastrar um novo Cliente"""
+    # model_dump() desempacota AUTOMATICAMENTE todos os campos do seu schema (incluindo email, data_nasc, etc.)
+    # Isso evita erros manuais de esquecer campos ou digitar nomes errados.
+    db_cliente = models.Cliente(**cliente.model_dump())
+    
+    try:
+        db.add(db_cliente)
+        db.commit()
+        db.refresh(db_cliente)
+        return db_cliente
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Erro interno ao salvar no banco. Verifique se o e-mail/CPF já existe ou se faltam campos. Detalhe: {str(e)}"
+        )
+
+@app.get("/Clientes", response_model=List[schemas.ClienteResponse])
+def listar_clientes(db: Session = Depends(get_db)):
+    """GET - Listar todos os Clientes"""
+    return db.query(models.Cliente).all()
+
+# Corrigido de {produto_id} para {cliente_id} para bater com a função
+@app.get("/Clientes/{cliente_id}", response_model=schemas.ClienteResponse)
+def buscar_cliente(cliente_id: int, db: Session = Depends(get_db)):
+    """GET - Buscar um cliente pelo ID"""
+    cliente = db.query(models.Cliente).filter(models.Cliente.id_cliente == cliente_id).first()
+    if not cliente:
+        raise HTTPException(status_code=404, detail="Cliente não encontrado!")
+    return cliente
+
+@app.get("/Clientes/Busca/{nome_cliente}")
+def buscar_por_nome(nome_cliente: str, db: Session = Depends(get_db)):
+    """GET - Buscar clientes pelo nome"""
+    clientes = db.query(models.Cliente).filter(
+        models.Cliente.nome_cliente.ilike(f"%{nome_cliente}%")
+    ).all()
+    return clientes
+
+@app.put("/Clientes/{cliente_id}", response_model=schemas.ClienteResponse)
+def atualizar_clientes(
+    cliente_id: int,
+    cliente_update: schemas.ClienteUpdate,
+    db: Session = Depends(get_db)
+):
+    """PUT - Atualizar um cliente existente"""
+    cliente = db.query(models.Cliente).filter(models.Cliente.id_cliente == cliente_id).first()
+   
+    if not cliente:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Cliente com ID {cliente_id} não encontrado!"
+        )
+   
+    # Atualizado para model_dump (padrão moderno do Pydantic v2)
+    update_data = cliente_update.model_dump(exclude_unset=True)
+   
+    for campo, valor in update_data.items():
+        setattr(cliente, campo, valor)
+   
+    db.commit()
+    db.refresh(cliente)
+    return cliente
+
+# Corrigido a rota de /Cliente/ para /Clientes/ para manter o padrão
+@app.delete("/Clientes/{cliente_id}")
+def deletar_cliente(cliente_id: int, db: Session = Depends(get_db)):
+    """DELETE - Remover um cliente do sistema"""
+    cliente = db.query(models.Cliente).filter(models.Cliente.id_cliente == cliente_id).first()
+   
+    if not cliente:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Cliente com ID {cliente_id} não encontrado!"
+        )
+   
+    nome_cliente = cliente.nome_cliente
+    db.delete(cliente)
+    db.commit()
+   
+    return {
+        "mensagem": f"Cliente '{nome_cliente}' (ID: {cliente_id}) foi removido com sucesso!"
+    }
