@@ -58,7 +58,7 @@ def Login(login_data: LoginRequest, db: Session = Depends(get_db)):
     
     # 2. Se não achar em Clientes, procura na tabela de Profissionais (Cuidadores)
     profissional = db.query(models.Profissional).filter(models.Profissional.email_profissional == login_data.email).first()
-    if profissional and profesional.senha_profissional == login_data.senha:
+    if profissional and profissional.senha_profissional == login_data.senha:
         return {
             "status": "sucesso",
             "tipo_usuario": "cuidador",
@@ -167,7 +167,7 @@ def deletar_cliente(cliente_id: int, db: Session = Depends(get_db)):
 @app.post("/Profissionais", tags=["Profissionais"], response_model=schemas.ProfissionalResponse, status_code=201)
 def cadastro_profissional(profissional: schemas.ProfissionalCreate, db: Session = Depends(get_db)):
     """POST - Cadastrar um novo Profissional"""
-    dados_profissional = profesional.model_dump()
+    dados_profissional = profissional.model_dump()
     
     dados_profissional["senha_profissional"] = profissional.senha_profissional.get_secret_value()
     
@@ -193,7 +193,7 @@ def listar_profissionais(db: Session = Depends(get_db)):
 @app.get("/Profissionais/{profissional_id}", tags=["Profissionais"], response_model=schemas.ProfissionalResponse)
 def buscar_profissional(profissional_id: int, db: Session = Depends(get_db)):
     """GET - Buscar um profissional pelo ID"""
-    profissional = db.query(models.Profissional).filter(models.Profissional.id_profissional == profesional_id).first()
+    profissional = db.query(models.Profissional).filter(models.Profissional.id_profissional == profissional_id).first()
     if not profissional:
         raise HTTPException(status_code=404, detail="Profissional não encontrado!")
     return profissional
