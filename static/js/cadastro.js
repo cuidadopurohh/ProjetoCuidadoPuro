@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             try {
-                const resposta = await fetch("http://127.0.0.1:8000/Clientes", {
+                const resposta = await fetch(API_BASE_URL + "/Clientes", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(dados)
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             try {
-                const resposta = await fetch("http://127.0.0.1:8000/Profissionais", {
+                const resposta = await fetch(API_BASE_URL + "/Profissionais", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(dados)

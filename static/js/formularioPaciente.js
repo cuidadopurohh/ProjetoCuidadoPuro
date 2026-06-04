@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 // Envia os dados para a rota do seu backend para Clientes/Pacientes
-                const resposta = await fetch("http://127.0.0.1:8000/Clientes", {
+                const resposta = await fetch(API_BASE_URL + "/Clientes", {
                     method: "POST",
                     headers: { 
                         "Content-Type": "application/json" 

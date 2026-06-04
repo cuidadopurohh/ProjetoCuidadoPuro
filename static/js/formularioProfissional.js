@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 // Rota que vai conversar diretamente com o servidor do seu colega
-                const resposta = await fetch("http://127.0.0.1:8000/Profissionais", {
+                const resposta = await fetch(API_BASE_URL + "/Profissionais", {
                     method: "POST",
                     headers: { 
                         "Content-Type": "application/json" 

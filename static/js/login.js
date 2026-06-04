@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const senhaVal = document.getElementById("login_senha").value;
 
         try {
-            const resposta = await fetch("http://127.0.0.1:8000/Login", {
+            const resposta = await fetch(API_BASE_URL + "/Login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email: emailVal, senha: senhaVal })
