@@ -1,21 +1,7 @@
 /**
- * 📢 AVISO IMPORTANTE PARA O BACKEND:
- * 1. ROTA DE DESTINO: POST http://127.0.0.1:8000/Clientes
- * 2. MUDANÇAS E TRATAMENTO DE DADOS:
- * - Este arquivo gerencia especificamente o Questionário de Saúde (2ª etapa).
- * - Para evitar quebras, o campo 'idade_paciente' já está sendo convertido automaticamente
- * para Número Inteiro (int) usando `parseInt()` antes de disparar a requisição.
- * - ATENÇÃO AOS NOMES: Para este formulário de triagem clínica, mudamos as chaves para 
- * 'nome_paciente' e 'idade_paciente' (no cadastro.js antigo era 'nome_cliente').
- * * 3. ESTRUTURA DO JSON ENVIADO (CONTRATO):
- * {
- * "nome_paciente": "Texto completo",
- * "idade_paciente": 78, (Enviado como INT/Número)
- * "condicao_principal": "Texto do select (Ex: 'idoso-limitacao', 'pos-cirurgico')",
- * "nivel_suporte": "Texto do radio (Ex: 'basico', 'intermediario', 'intensivo')",
- * "observacoes_cuidados": "Texto longo da textarea (alergias/restrições)"
- * }
- * 4. Eu testei o js com um backend falso sem rota de destino e esta 100% CORRETO
+ * 📢 ATUALIZAÇÃO PARA O BACKEND (MONOLITO CUIDADO PURO):
+ * - ROTA DE DESTINO: POST /Clientes
+ * - FLUXO UNIFICADO (OPÇÃO 2): Envia dados cadastrais do responsável + dados clínicos juntos.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -25,27 +11,32 @@ document.addEventListener("DOMContentLoaded", () => {
         formPaciente.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            // Captura o rádio button que estiver selecionado no momento do envio
+            // Captura o rádio button selecionado para o nível de suporte do paciente
             const suporteSelecionado = document.querySelector('input[name="nivel-suporte"]:checked');
 
-            // Monta o objeto com os dados REAIS do formulário do paciente
+            // Monta o objeto UNIFICADO com todos os campos obrigatórios e opcionais
             const dados = {
+                // --- Campos Obrigatórios do Cadastro (Responsável/Cliente) ---
+                nome_cliente: document.getElementById("paciente-nome-cadastro").value,
+                rg_cliente: document.getElementById("paciente-rg").value,
+                cpf_cliente: document.getElementById("paciente-cpf").value,
+                endereco_cliente: document.getElementById("paciente-endereco").value,
+                telefone_cliente: document.getElementById("paciente-telefone").value,
+                // Tratando a idade do cliente como texto (ou mude para parseInt se o backend exigir int)
+                idade_cliente: document.getElementById("paciente-idade-cadastro").value, 
+                email_cliente: document.getElementById("paciente-email").value,
+                senha_cliente: document.getElementById("paciente-senha").value,
+
+                // --- Campos Opcionais Clínicos (Paciente Assistido) ---
                 nome_paciente: document.getElementById("paciente-nome").value,
-                idade_paciente: parseInt(document.getElementById("paciente-idade").value),
+                idade_paciente: parseInt(document.getElementById("paciente-idade").value) || null,
                 condicao_principal: document.getElementById("condicao-principal").value,
                 nivel_suporte: suporteSelecionado ? suporteSelecionado.value : null,
                 observacoes_cuidados: document.getElementById("observacoes").value
             };
 
-            // =========================================================================
-            // SE QUISER TESTAR LOCALMENTE SEM BACKEND:
-            // Descomente as duas linhas abaixo (remova as duas barras //) e comente o bloco try/catch
-            // console.log("=== DADOS DO PACIENTE CAPTURADOS ===");
-            // console.dir(dados); return;
-            // =========================================================================
-
             try {
-                // Envia os dados para a rota do seu backend para Clientes/Pacientes
+                // Envia os dados consolidados para a rota de Clientes hospedada no Render
                 const resposta = await fetch(API_BASE_URL + "/Clientes", {
                     method: "POST",
                     headers: { 
@@ -57,13 +48,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 const resultado = await resposta.json();
 
                 if (resposta.ok) {
-                    alert("Questionário de saúde do paciente enviado com sucesso!");
+                    alert("Cadastro e questionário de saúde enviados com sucesso!");
                     window.location.href = "telaLogin.html";
                 } else {
-                    alert("Erro no cadastro: " + (resultado.detail || "Verifique as informações."));
+                    // Trata os erros de validação da FastAPI de forma legível em texto puro
+                    if (resultado.detail && Array.isArray(resultado.detail)) {
+                        const mensagensErro = resultado.detail.map(err => {
+                            const campo = err.loc[1] || err.loc[0];
+                            return `Campo [${campo}]: ${err.msg}`;
+                        }).join("\n");
+                        
+                        alert("Erro de validação no formulário:\n\n" + mensagensErro);
+                    } else {
+                        alert("Erro no cadastro: " + (resultado.detail || "Verifique as informações."));
+                    }
                 }
             } catch (erro) {
-                alert("Não foi possível conectar ao servidor. O backend está ligado?");
+                alert("Não foi possível conectar ao servidor. O backend está online no Render?");
                 console.error("Erro na requisição:", erro);
             }
         });
