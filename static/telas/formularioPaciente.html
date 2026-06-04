@@ -14,7 +14,6 @@
         <div class="logo">
             <a href="../index.html"><img src="/telas/img/logo_(2).png" alt="Logo"></a>
             <a href="../index.html" class="logo-text">Cuidado Puro</a>
-
         </div>
 
         <nav>
@@ -27,22 +26,69 @@
             </ul>
         </nav>
 
-        <button href="telaLogin.html" class="btn-login">Entrar</button>
+        <button onclick="window.location.href='telaLogin.html'" class="btn-login">Entrar</button>
     </header>
 
     <main class="form-container">
 
         <div class="form-header">
-            <h1>Formulario do paciente</h1>
-            <p>Responda às questões abaixo para mapearmos o histórico clínico e definirmos o nível de monitoramento
-                preventivo ideal.</p>
+            <h1>Formulário do Paciente</h1>
+            <p>Preencha os dados da conta e responda às questões para mapearmos o histórico clínico ideal.</p>
         </div>
 
         <div class="quiz-card">
             <form id="formPaciente" action="#" method="POST">
 
                 <div class="form-section">
-                    <h2 class="section-title">Dados Clínicos Iniciais</h2>
+                    <h2 class="section-title">Dados de Criação da Conta (Responsável)</h2>
+                    
+                    <div class="input-grid">
+                        <div class="field-group">
+                            <label for="paciente-nome-cadastro">Nome Completo do Responsável</label>
+                            <input type="text" id="paciente-nome-cadastro" placeholder="Digite seu nome completo" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="paciente-cpf">CPF (Apenas números)</label>
+                            <input type="text" id="paciente-cpf" placeholder="Ex: 12345678901" maxlength="11" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="paciente-rg">RG</label>
+                            <input type="text" id="paciente-rg" placeholder="Digite seu RG" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="paciente-idade-cadastro">Idade do Responsável</label>
+                            <input type="number" id="paciente-idade-cadastro" placeholder="Sua idade" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="paciente-telefone">Telefone / WhatsApp</label>
+                            <input type="tel" id="paciente-telefone" placeholder="Ex: 11999999999" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="paciente-endereco">Endereço Residencial</label>
+                            <input type="text" id="paciente-endereco" placeholder="Rua, Número, Bairro e Cidade" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="paciente-email">E-mail (Seu usuário de login)</label>
+                            <input type="email" id="paciente-email" placeholder="nome@email.com" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="paciente-senha">Senha de Acesso</label>
+                            <input type="password" id="paciente-senha" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="border: 0; height: 1px; background: rgba(255,255,255,0.1); margin: 20px 0;">
+
+                <div class="form-section">
+                    <h2 class="section-title">Dados Clínicos Iniciais do Paciente</h2>
 
                     <div class="input-grid">
                         <div class="field-group">
@@ -50,7 +96,7 @@
                             <input type="text" id="paciente-nome" placeholder="Ex: Maria Carmo Silva" required>
                         </div>
                         <div class="field-group">
-                            <label for="paciente-idade">Idade</label>
+                            <label for="paciente-idade">Idade do Paciente</label>
                             <input type="number" id="paciente-idade" placeholder="Ex: 78" required>
                         </div>
                     </div>
@@ -70,8 +116,7 @@
 
                 <div class="form-section">
                     <h2 class="section-title">Nível de Suporte e Dependência</h2>
-                    <label style="font-size: 0.95rem; opacity: 0.9;">Qual é o grau de assistência diária necessário para
-                        a rotina?</label>
+                    <label style="font-size: 0.95rem; opacity: 0.9;">Qual é o grau de assistência diária necessário para a rotina?</label>
 
                     <div class="selection-grid">
                         <label class="selection-option">
@@ -79,8 +124,7 @@
                             <div class="selection-box">
                                 <span>🟢</span>
                                 Suporte Básico
-                                <p style="font-size:0.75rem; font-weight:300; margin-top:5px; opacity:0.8;">Apenas
-                                    monitoramento preventivo e lembretes.</p>
+                                <p style="font-size:0.75rem; font-weight:300; margin-top:5px; opacity:0.8;">Apenas monitoramento preventivo e lembretes.</p>
                             </div>
                         </label>
 
@@ -89,8 +133,7 @@
                             <div class="selection-box">
                                 <span>🟡</span>
                                 Intermediário
-                                <p style="font-size:0.75rem; font-weight:300; margin-top:5px; opacity:0.8;">Ajuda para
-                                    locomoção, higiene e medicamentos.</p>
+                                <p style="font-size:0.75rem; font-weight:300; margin-top:5px; opacity:0.8;">Ajuda para locomoção, higiene e medicamentos.</p>
                             </div>
                         </label>
 
@@ -99,8 +142,7 @@
                             <div class="selection-box">
                                 <span>🔴</span>
                                 Monitoramento 24/7
-                                <p style="font-size:0.75rem; font-weight:300; margin-top:5px; opacity:0.8;">Assistência
-                                    contínua, cuidados médicos e alertas ativos.</p>
+                                <p style="font-size:0.75rem; font-weight:300; margin-top:5px; opacity:0.8;">Assistência contínua, cuidados médicos e alertas ativos.</p>
                             </div>
                         </label>
                     </div>
@@ -109,15 +151,13 @@
                 <div class="form-section">
                     <h2 class="section-title">Histórico de Alergias e Cuidados Especiais</h2>
                     <div class="field-group">
-                        <label for="observacoes">Liste restrições alimentares, alergias a medicamentos ou cuidados
-                            específicos:</label>
-                        <textarea id="observacoes" rows="4"
-                            placeholder="Ex: Alergia a Dipirona. Necessita de auxílio total para transferências da cama para a cadeira de rodas..."></textarea>
+                        <label for="observacoes">Liste restrições alimentares, alergias a medicamentos ou cuidados específicos:</label>
+                        <textarea id="observacoes" rows="4" placeholder="Ex: Alergia a Dipirona. Necessita de auxílio total para transferências da cama para a cadeira de rodas..."></textarea>
                     </div>
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="btn-back" href="cadastroPacientes.html">Voltar</button>
+                    <button type="button" class="btn-back" onclick="window.history.back()">Voltar</button>
                     <button type="submit" class="btn-cadastrar button">Finalizar Cadastro</button>
                 </div>
 
