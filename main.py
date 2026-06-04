@@ -1,12 +1,12 @@
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from typing import List
 from pydantic import BaseModel
 import models
 import schemas
 from database import SessionLocal, engine, Base
-from fastapi.staticfiles import StaticFiles
 
 # Criar as tabelas no banco de dados (MySQL / MariaDB)
 models.Base.metadata.create_all(bind=engine)
@@ -17,8 +17,6 @@ app = FastAPI(
     description="Sistema completo para controlar clientes e profissionais",
     version="1.0.0"
 )
-
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 # ==================== CONFIGURAÇÃO DE CORS ====================
 # Permite que o seu front-end (HTML/JS) faça requisições para a API sem bloqueios
@@ -239,6 +237,12 @@ def deletar_profissional(profissional_id: int, db: Session = Depends(get_db)):
     db.commit()
    
     return {"mensagem": f"Profissional '{nome_profissional}' (ID: {profissional_id}) foi removido com sucesso!"}
+
+
+# ==================== MOUNT DE ARQUIVOS ESTÁTICOS ====================
+# Monta os arquivos estáticos (HTML, CSS, JS) após as rotas da API
+# para que as rotas da API tenham prioridade
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 
 if __name__ == "__main__":
