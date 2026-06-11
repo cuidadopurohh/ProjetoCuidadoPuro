@@ -22,7 +22,7 @@ body {
     background-attachment: fixed; /* Mantém o gradiente suave ao rolar a página */
     color: var(--text-white);
     line-height: 1.6;
-    background-image: url(../telas/img/foto.index.png);
+    background-image: url("/telas/img/foto_index.png");
     backdrop-filter: blur(5px);
 }
 
