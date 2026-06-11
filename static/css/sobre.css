@@ -22,7 +22,7 @@
             line-height: 1.6;
             min-height: 100vh;
             overflow-x: hidden;
-            background-image: url(../telas/img/foto.index.png);
+            background-image: url("/telas/img/foto_index.png");
             backdrop-filter: blur(10px);
         }
 
