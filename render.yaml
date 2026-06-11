@@ -10,4 +10,4 @@ services:
     name: ProjetoCuidadoPuro Frontend
     env: static
     plan: free
-    staticPublishPath: static
+    staticPublishPath: .
