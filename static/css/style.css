@@ -19,7 +19,7 @@ body {
     /* O linear-gradient sutil por cima garante contraste nítido para as fontes brancas */
     background-image: 
         linear-gradient(135deg, rgba(22, 45, 97, 0.4) 0%, rgba(13, 25, 54, 0.6) 100%), 
-        url("/telas/img/foto_index.png"); 
+        url("../../telas/img/foto_index.png"); 
     
     background-size: cover;          /* Preenche a tela inteira sem distorcer a arte */
     background-position: center;     /* Centraliza as ondas e os hexágonos */
