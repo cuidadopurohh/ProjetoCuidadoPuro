@@ -22,6 +22,7 @@ body {
     background: var(--bg-gradient);
     color: var(--text-white);
     padding-top: 100px;
+    background-image: url("/telas/img/foto_index.png");
 }
 
 /* =========================
