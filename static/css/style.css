@@ -169,7 +169,7 @@ cursor: pointer;
     line-height: 1.15;
     margin-bottom: 25px;
     letter-spacing: -1px;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Leve sombra para destacar a leitura */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0px 0px 15px rgba(0, 0, 0, 0.9); /* Leve sombra para destacar a leitura */
 }
 
 .hero-content h1 .highlight-text {
