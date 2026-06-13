@@ -60,6 +60,7 @@
     transition: width 0.3s ease;
     z-index: 900;
     overflow: hidden;
+    backdrop-filter: blur(20px);
 }
 
 /* Quando passa o mouse na barra lateral ela expande */
@@ -242,6 +243,7 @@
     justify-content: start;
     margin-left: -130px;
     margin-right: auto;
+    backdrop-filter: blur(20px);
 }
 
 .card {
