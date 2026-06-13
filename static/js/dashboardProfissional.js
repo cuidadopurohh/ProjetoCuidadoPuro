@@ -10,7 +10,7 @@ async function carregarPacientes() {
     try {
         // Realiza a chamada na rota do seu backend que lista os clientes/pacientes
         // Lembre-se de verificar se sua rota se chama /Pacientes, /Clientes ou /Assistidos
-        const resposta = await fetch(API_BASE_URL + "/Pacientes", {
+        const resposta = await fetch(API_BASE_URL + "/Clientes", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
