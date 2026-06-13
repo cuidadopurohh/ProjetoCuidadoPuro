@@ -8,8 +8,7 @@ async function carregarPacientes() {
     if (!cardsGrid) return;
 
     try {
-        // Realiza a chamada na rota do seu backend que lista os clientes/pacientes
-        // Lembre-se de verificar se sua rota se chama /Pacientes, /Clientes ou /Assistidos
+        // Realiza a chamada na rota unificada do seu backend
         const resposta = await fetch(API_BASE_URL + "/Clientes", {
             method: "GET",
             headers: {
@@ -18,37 +17,37 @@ async function carregarPacientes() {
         });
 
         if (!resposta.ok) {
-            throw new Error("Não foi possível obter a lista de pacientes do servidor.");
+            throw new Error("Não foi possível obter a lista de clientes do servidor.");
         }
 
-        const pacientes = await resposta.json();
+        const clientes = await resposta.json();
 
-        // Limpa a grade para evitar repetições indesejadas
+        // Limpa a grade para evitar duplicações de cards
         cardsGrid.innerHTML = "";
 
-        if (pacientes.length === 0) {
+        if (clientes.length === 0) {
             cardsGrid.innerHTML = `<p class="sem-dados">Nenhum paciente necessitando de cuidados no momento.</p>`;
             return;
         }
 
-        // Percorre o array retornado pela tabela do banco de dados
-        pacientes.forEach(paciente => {
+        // Percorre o array retornado pela tabela Clientes do banco de dados
+        clientes.forEach(cliente => {
             const card = document.createElement("article");
             card.classList.add("card");
 
             // Mapeia os dados das propriedades JSON devolvidas pela sua FastAPI.
             // Altere os nomes das variáveis caso os campos da sua tabela sejam diferentes.
-            const nome = paciente.nome_paciente || "Paciente Oculto";
-            const idade = paciente.idade_paciente || "Não informada";
-            const nivelSuporte = paciente.nivel_suporte || "A combinar";
-            const fotoPerfil = paciente.foto_url || "../cuidadopuro_teste/img/Design sem nome (2).png";
-            const avaliacao = paciente.avaliacao_cadastro || "5.0";
+            const nome = cliente.nome_paciente || "Paciente Oculto";
+            const idade = cliente.idade_paciente || "Não informada";
+            const nivelSuporte = cliente.nivel_suporte || "A combinar";
+            const fotoPerfil = cliente.foto_url || "../cuidadopuro_teste/img/Design sem nome (2).png";
+            const avaliacao = cliente.avaliacao_cadastro || "5.0";
 
             card.innerHTML = `
                 <img src="${fotoPerfil}" alt="Perfil de ${nome}">
                 <div class="info">
                     <h3>${nome}</h3>
-                    <p class="meta">${idade} anos · Nivel de suporte: ${nivelSuporte}</p>
+                    <p class="meta">${idade} anos · ${nivelSuporte}</p>
                     <p class="rating">⭐ ${avaliacao}</p>
                     <a href="#" class="btn" onclick="verPerfilPaciente(${paciente.id})">Ver perfil</a>
                 </div>
