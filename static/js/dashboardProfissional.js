@@ -47,7 +47,7 @@ async function carregarPacientes() {
                 <img src="${fotoPerfil}" alt="Perfil de ${nome}">
                 <div class="info">
                     <h3>${nome}</h3>
-                    <p class="meta">${idade} anos · ${nivelSuporte}</p>
+                    <p class="meta">${idade} anos · Nível de suporte: ${nivelSuporte}</p>
                     <p class="rating">⭐ ${avaliacao}</p>
                     <a href="#" class="btn" onclick="verPerfilPaciente(${cliente.id})">Ver perfil</a>
                 </div>
