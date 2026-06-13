@@ -58,6 +58,7 @@
     transition: width 0.3s ease;
     z-index: 900;
     overflow: hidden;
+    backdrop-filter: blur(20px);
 }
 
 /* Quando passa o mouse na barra lateral ela expande */
@@ -162,6 +163,7 @@
     border-radius: 24px;
     padding: 28px 24px;
     box-shadow: 0 20px 100px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(20px);
 }
 
 .search-panel h1 {
@@ -245,6 +247,7 @@
     box-shadow: 0 16px 40px rgba(0,0,0,0.18);
     border: 1px solid rgba(255,255,255,0.08);
     transition: transform 0.2s ease; /* Efeito suave ao passar o mouse */
+    backdrop-filter: blur(20px);
 }
 
 /* Efeito opcional: deixa o card responsivo ao passar o mouse */
