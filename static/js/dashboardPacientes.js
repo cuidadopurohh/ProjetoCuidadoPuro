@@ -45,8 +45,8 @@ async function carregarCuidadores() {
             // Mapeia os dados baseados nos campos do seu banco de dados
             // Caso sua tabela use nomes ligeiramente diferentes (ex: anos_experiencia), ajuste abaixo:
             const nome = profissional.nome_profissional || "Profissional";
-            const cidade = profissional.cidade_profissional || "Não informada";
-            const experiencia = profissional.experiencia_profissional || "0";
+            const idade = profissional.idade_profissional || "Não informada";
+            const experiencia = profissional.tempo_experiencia || "0";
             const fotoPerfil = profissional.foto_url || "../cuidadopuro_teste/img/Design sem nome (2).png";
             const avaliacao = profissional.avaliacao || "5.0";
 
@@ -54,7 +54,7 @@ async function carregarCuidadores() {
                 <img src="${fotoPerfil}" alt="Perfil de ${nome}">
                 <div class="info">
                     <h3>${nome}</h3>
-                    <p class="meta">${cidade} · ${experiencia} anos de experiência</p>
+                    <p class="meta">${idade} anos · ${experiencia} anos de experiência</p>
                     <p class="rating">⭐ ${avaliacao}</p>
                     <a href="#" class="btn" onclick="verPerfil(${profissional.id})">Ver perfil</a>
                 </div>
