@@ -1,6 +1,6 @@
 :root {
     --bg-gradient: linear-gradient(135deg, #305eb1 0%, #162d61 100%);
-    --card-gradient: linear-gradient(180deg, #3a2fa8 0%, #2196f3 100%);
+    --card-gradient: linear-gradient(180deg, #162d61 0%, #2196f3 100%);
     --primary-color: #67c2b8;
     --hover-color: #55a89f;
     --text-white: #ffffff;
