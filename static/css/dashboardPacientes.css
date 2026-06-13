@@ -243,7 +243,6 @@
     justify-content: start;
     margin-left: -130px;
     margin-right: auto;
-    backdrop-filter: blur(20px);
 }
 
 .card {
