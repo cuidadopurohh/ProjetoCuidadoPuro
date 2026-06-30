@@ -57,83 +57,69 @@ function renderizarCards(profissionais) {
         const card = document.createElement("article");
         card.classList.add("card");
 
+        // === CORREÇÃO: Alinhando com os campos exatos do seu Model do SQLAlchemy ===
+        const id = profissional.id_profissional; // Mudou de .id para .id_profissional
         const nome = profissional.nome_profissional || "Profissional";
         const idade = profissional.idade_profissional || "Não informada";
         const experiencia = profissional.tempo_experiencia || "0";
         const fotoPerfil = profissional.foto_url || "../cuidadopuro_teste/img/Design sem nome (2).png";
         const avaliacao = profissional.avaliacao || "5.0";
-        const cidade = profissional.cidade || "Não informada";
+        
+        // Como o seu model tem 'endereco_profissional' em vez de cidade, usamos ele ou quebramos a string se necessário
+        const localizacao = profissional.endereco_profissional || "Não informado";
 
         card.innerHTML = `
             <img src="${fotoPerfil}" alt="Perfil de ${nome}">
             <div class="info">
                 <h3>${nome}</h3>
                 <p class="meta">${idade} anos · ${experiencia} anos de exp.</p>
-                <p class="meta-sub">${cidade}</p>
+                <p class="meta-sub">${localizacao}</p>
                 <p class="rating">⭐ ${avaliacao}</p>
-                <a href="#" class="btn" onclick="verPerfil(${profissional.id})">Ver perfil</a>
+                <a href="#" class="btn" onclick="verPerfil(${id})">Ver perfil</a>
             </div>
         `;
         cardsGrid.appendChild(card);
     });
 }
 
-// 3. Monitora o que o usuário digita ou seleciona
-function configurarEventosDeBusca() {
+// 4. Regra de filtragem lógica combinada (Alinhada com o Banco de Dados)
+function filtrarProfissionais() {
     const inputBusca = document.getElementById("inputBusca");
     const selectEspecialidade = document.getElementById("selectEspecialidade");
     const selectCidade = document.getElementById("selectCidade");
-    const btnBuscar = document.getElementById("btnBuscar");
 
-    // Filtra em tempo real enquanto digita
-    if (inputBusca) inputBusca.addEventListener("input", filtrarProfissionais);
-    
-    // Filtra imediatamente ao alterar um Select
-    if (selectEspecialidade) selectEspecialidade.addEventListener("change", filtrarProfissionais);
-    if (selectCidade) selectCidade.addEventListener("change", filtrarProfissionais);
+    if (!inputBusca) return;
 
-    // Evita comportamento padrão se clicarem no botão Buscar
-    if (btnBuscar) {
-        btnBuscar.addEventListener("click", (e) => {
-            e.preventDefault();
-            filtrarProfissionais();
-        });
-    }
-}
+    const termoBusca = inputBusca.value.toLowerCase().trim();
+    const especialidadeSelecionada = selectEspecialidade ? selectEspecialidade.value : "todos";
+    const cidadeSelecionada = selectCidade ? selectCidade.value : "todos";
 
-// 4. Regra de filtragem lógica combinada
-function filtrarProfissionais() {
-    const termoBusca = document.getElementById("inputBusca").value.toLowerCase().trim();
-    const especialidadeSelecionada = document.getElementById("selectEspecialidade").value;
-    const cidadeSelecionada = document.getElementById("selectCidade").value;
-
-    // Aplica as regras de filtro sobre o array global na memória
     const profissionaisFiltrados = listaProfissionais.filter(profissional => {
         
-        // Dados do banco normalizados para caixa baixa (evitar problemas de maiúsculas/minúsculas)
+        // === CORREÇÃO: Mapeando as variáveis internas do filtro para as colunas reais do Model ===
         const nome = (profissional.nome_profissional || "").toLowerCase();
-        const cidadeProfissional = (profissional.cidade || "").toLowerCase();
-        const especialidade = (profissional.especialidade || "").toLowerCase();
+        const endereco = (profissional.endereco_profissional || "").toLowerCase();
+        const especialidade = (profissional.especialidade_principal || "").toLowerCase(); // Mudou para especialidade_principal
 
-        // Regra 1: Input de Texto (Nome, Cidade ou Especialidade)
+        // Regra 1: Input de Texto (Busca por Nome, Endereço/Cidade ou Especialidade)
         const bateTexto = termoBusca === "" || 
                           nome.includes(termoBusca) || 
-                          cidadeProfissional.includes(termoBusca) || 
+                          endereco.includes(termoBusca) || 
                           especialidade.includes(termoBusca);
 
         // Regra 2: Select de Especialidade
         const bateEspecialidade = especialidadeSelecionada === "todos" || 
-                                  profissional.especialidade === especialidadeSelecionada;
+                                  especialidadeSelecionada === "Qualquer especialidade" ||
+                                  profissional.especialidade_principal === especialidadeSelecionada;
 
-        // Regra 3: Select de Cidade
+        // Regra 3: Select de Cidade (Como no banco é o endereço completo, verificamos se o texto do endereço contém a cidade selecionada)
         const bateCidade = cidadeSelecionada === "todos" || 
-                           profissional.cidade === cidadeSelecionada;
+                           cidadeSelecionada === "Todas as cidades" ||
+                           endereco.includes(cidadeSelecionada.toLowerCase());
 
-        // Retorna o profissional apenas se passar em TODAS as 3 condições ao mesmo tempo
         return bateTexto && bateEspecialidade && bateCidade;
     });
 
-    // Redesenha a tela apenas com os resultados filtrados
     renderizarCards(profissionaisFiltrados);
 }
 
