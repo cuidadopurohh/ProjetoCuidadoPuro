@@ -74,32 +74,34 @@
 
 	<main class="main-container dashboard-container">
 
-		<section class="search-panel">
-			<h1>Encontre Cuidadores</h1>
+    <section class="search-panel">
+        <h1>Encontre Cuidadores</h1>
 
-			<div class="search-row">
-            	<input class="search-input" id="inputBusca" type="text" placeholder="Pesquisar por nome, cidade ou especialidade">
-            		<a class="btn" id="btnBuscar" href="#">Buscar</a>
-        	</div>
+        <div class="search-row">
+            <input class="search-input" id="inputBusca" type="text" placeholder="Pesquisar por nome, cidade ou especialidade">
+            <a class="btn" id="btnBuscar" href="#">Buscar</a>
+        </div>
 
-			<div class="filters">
-				<select class="filter">
-					<option>Qualquer especialidade</option>
-					<option>Cuidado Pessoal</option>
-					<option>Cuidados Domiciliares</option>
-				</select>
-				<select class="filter">
-					<option>Todas as cidades</option>
-					<option>Maringá</option>
-					<option>Sarandi</option>
-					<option>Paiçandu</option>
-				</select>
-			</div>
-		</section>
-		<section class="cards-grid" class="card" id="cardsGridCuidadores">
-		</section>
-		
-    </main>
+        <div class="filters">
+            <select class="filter" id="selectEspecialidade">
+                <option value="todos">Qualquer especialidade</option>
+                <option value="Cuidado Pessoal">Cuidado Pessoal</option>
+                <option value="Cuidados Domiciliares">Cuidados Domiciliares</option>
+            </select>
+            
+            <select class="filter" id="selectCidade">
+                <option value="todos">Todas as cidades</option>
+                <option value="Maringá">Maringá</option>
+                <option value="Sarandi">Sarandi</option>
+                <option value="Paiçandu">Paiçandu</option>
+            </select>
+        </div>
+    </section>
+
+    <section class="cards-grid" id="cardsGridCuidadores">
+        </section>
+
+</main>
     <main class="dashboard-container">	
 	</main>
 	<script src="../js/config.js"></script>
