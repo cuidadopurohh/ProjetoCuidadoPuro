@@ -97,13 +97,9 @@ function configurarEventosDeBusca() {
 
 // 4. Regra de filtragem robusta
 function filtrarProfissionais() {
-    const inputBusca = document.getElementById("inputBusca");
-    const selectEspecialidade = document.getElementById("selectEspecialidade");
-    const selectCidade = document.getElementById("selectCidade");
-
-    const termoBusca = inputBusca.value.toLowerCase().trim();
-    const especialidadeSelecionada = selectEspecialidade ? selectEspecialidade.value : "todos";
-    const cidadeSelecionada = selectCidade ? selectCidade.value : "todos";
+    const termoBusca = document.getElementById("inputBusca").value.toLowerCase().trim();
+    const especialidadeSelecionada = document.getElementById("selectEspecialidade").value;
+    const cidadeSelecionada = document.getElementById("selectCidade").value;
 
     const profissionaisFiltrados = listaProfissionais.filter(profissional => {
         
