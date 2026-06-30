@@ -82,37 +82,38 @@
 			<h1>Encontre Pacientes</h1>
 
 			<div class="search-row">
-				<input class="search-input" type="text" placeholder="Pesquisar por nome, cidade ou especialidade">
-				<a class="btn" href="#">Buscar</a>
+				<input class="search-input" id="inputBuscaPaciente" type="text" placeholder="Pesquisar por nome, cidade ou especialidade">
+				<a class="btn" id="btnBuscarPaciente" href="#">Buscar</a>
 			</div>
 
 			<div class="filters">
-				<select class="filter">
-					<option>Qualquer Necessidade</option>
-					<option>Cuidado Hospitalar</option>
-					<option>Cuidados Domiciliares</option>
+				<select class="filter" id="selectNecessidade">
+					<option value="todos">Qualquer Necessidade</option>
+					<option value="Cuidado Hospitalar">Cuidado Hospitalar</option>
+					<option value="Cuidados Domiciliares">Cuidados Domiciliares</option>
 				</select>
-                <select class="filter">
-                    <option>Todos os períodos</option>
-                    <option>Manhã</option>
-                    <option>Tarde</option>
-                    <option>Noite</option>
-                    <option>Madrugada</option>
-                    <option>24 horas</option>
-                </select>
-				<select class="filter">
-					<option>Todas as cidades</option>
-					<option>Maringá</option>
-					<option>Sarandi</option>
-					<option>Paiçandu</option>
+				
+				<select class="filter" id="selectPeriodo">
+					<option value="todos">Todos os períodos</option>
+					<option value="Manhã">Manhã</option>
+					<option value="Tarde">Tarde</option>
+					<option value="Noite">Noite</option>
+					<option value="Madrugada">Madrugada</option>
+					<option value="24 horas">24 horas</option>
+				</select>
+				
+				<select class="filter" id="selectCidade">
+					<option value="todos">Todas as cidades</option>
+					<option value="Maringá">Maringá</option>
+					<option value="Sarandi">Sarandi</option>
+					<option value="Paiçandu">Paiçandu</option>
 				</select>
 			</div>
 		</section>
-		
-        <section class="cards-grid" class="card" id="cardsGridPacientes">
-		</section>
-		
-    </main>  
+			<section class="cards-grid" id="cardsGridPacientes">
+			</section>
+
+	</main>    
 
 	<script src="../js/config.js" defer></script>
     <script src="../js/login.js" defer></script>
