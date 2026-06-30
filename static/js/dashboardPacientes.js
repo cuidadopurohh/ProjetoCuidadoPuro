@@ -58,7 +58,7 @@ function renderizarCards(profissionais) {
         card.classList.add("card");
 
         const nome = profissional.nome_profissional || "Profissional";
-        const idade = profesional.idade_profissional || "Não informada";
+        const idade = profissional.idade_profissional || "Não informada";
         const experiencia = profissional.tempo_experiencia || "0";
         const fotoPerfil = profissional.foto_url || "../cuidadopuro_teste/img/Design sem nome (2).png";
         const avaliacao = profissional.avaliacao || "5.0";
