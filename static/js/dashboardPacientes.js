@@ -1,10 +1,9 @@
 /**
  * 📢 INTEGRAÇÃO DINÂMICA DA DASHBOARD (CUIDADO PURO):
- * - Consome: GET /Profissionais (ou a rota equivalente do seu monolito)
- * - Renderiza os cards de cuidadores em tempo real a partir do banco de dados.
+ * - Consome: GET /Profissionais
+ * - Renderiza os cards de cuidadores em tempo real com filtros combinados.
  */
 
-// Variável global para armazenar os dados brutos vindos da tabela do Banco de Dados
 let listaProfissionais = [];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -29,10 +28,7 @@ async function carregarCuidadores() {
             throw new Error("Erro ao coletar dados de profissionais do servidor.");
         }
 
-        // Alimenta a variável global com o array do banco
         listaProfissionais = await resposta.json();
-
-        // Renderiza todos os profissionais de início
         renderizarCards(listaProfissionais);
 
     } catch (erro) {
@@ -41,7 +37,7 @@ async function carregarCuidadores() {
     }
 }
 
-// 2. Função responsável exclusivamente por desenhar os cards na tela
+// 2. Desenha os cards na tela
 function renderizarCards(profissionais) {
     const cardsGrid = document.getElementById("cardsGridCuidadores");
     if (!cardsGrid) return;
@@ -57,15 +53,12 @@ function renderizarCards(profissionais) {
         const card = document.createElement("article");
         card.classList.add("card");
 
-        // === CORREÇÃO: Alinhando com os campos exatos do seu Model do SQLAlchemy ===
-        const id = profissional.id_profissional; // Mudou de .id para .id_profissional
+        const id = profissional.id_profissional; 
         const nome = profissional.nome_profissional || "Profissional";
         const idade = profissional.idade_profissional || "Não informada";
         const experiencia = profissional.tempo_experiencia || "0";
         const fotoPerfil = profissional.foto_url || "../cuidadopuro_teste/img/Design sem nome (2).png";
         const avaliacao = profissional.avaliacao || "5.0";
-        
-        // Como o seu model tem 'endereco_profissional' em vez de cidade, usamos ele ou quebramos a string se necessário
         const localizacao = profissional.endereco_profissional || "Não informado";
 
         card.innerHTML = `
@@ -82,7 +75,26 @@ function renderizarCards(profissionais) {
     });
 }
 
-// 4. Regra de filtragem lógica combinada (Alinhada com o Banco de Dados)
+// 3. Configura os listeners para escutar mudanças nos campos
+function configurarEventosDeBusca() {
+    const inputBusca = document.getElementById("inputBusca");
+    const selectEspecialidade = document.getElementById("selectEspecialidade");
+    const selectCidade = document.getElementById("selectCidade");
+    const btnBuscar = document.getElementById("btnBuscar");
+
+    if (inputBusca) inputBusca.addEventListener("input", filtrarProfissionais);
+    if (selectEspecialidade) selectEspecialidade.addEventListener("change", filtrarProfissionais);
+    if (selectCidade) selectCidade.addEventListener("change", filtrarProfissionais);
+
+    if (btnBuscar) {
+        btnBuscar.addEventListener("click", (e) => {
+            e.preventDefault();
+            filtrarProfissionais();
+        });
+    }
+}
+
+// 4. Regra de filtragem robusta
 function filtrarProfissionais() {
     const inputBusca = document.getElementById("inputBusca");
     const selectEspecialidade = document.getElementById("selectEspecialidade");
@@ -96,25 +108,22 @@ function filtrarProfissionais() {
 
     const profissionaisFiltrados = listaProfissionais.filter(profissional => {
         
-        // === CORREÇÃO: Mapeando as variáveis internas do filtro para as colunas reais do Model ===
         const nome = (profissional.nome_profissional || "").toLowerCase();
         const endereco = (profissional.endereco_profissional || "").toLowerCase();
-        const especialidade = (profissional.especialidade_principal || "").toLowerCase(); // Mudou para especialidade_principal
+        const especialidade = (profissional.especialidade_principal || "").toLowerCase();
 
-        // Regra 1: Input de Texto (Busca por Nome, Endereço/Cidade ou Especialidade)
+        // Regra 1: Input de Texto Livre
         const bateTexto = termoBusca === "" || 
                           nome.includes(termoBusca) || 
                           endereco.includes(termoBusca) || 
                           especialidade.includes(termoBusca);
 
-        // Regra 2: Select de Especialidade
+        // Regra 2: Select de Especialidade (Usa includes para evitar erros de strings levemente diferentes)
         const bateEspecialidade = especialidadeSelecionada === "todos" || 
-                                  especialidadeSelecionada === "Qualquer especialidade" ||
-                                  profissional.especialidade_principal === especialidadeSelecionada;
+                                  especialidade.includes(especialidadeSelecionada.toLowerCase());
 
-        // Regra 3: Select de Cidade (Como no banco é o endereço completo, verificamos se o texto do endereço contém a cidade selecionada)
+        // Regra 3: Select de Cidade (Varre o endereço completo buscando a cidade)
         const bateCidade = cidadeSelecionada === "todos" || 
-                           cidadeSelecionada === "Todas as cidades" ||
                            endereco.includes(cidadeSelecionada.toLowerCase());
 
         return bateTexto && bateEspecialidade && bateCidade;
