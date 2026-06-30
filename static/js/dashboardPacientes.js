@@ -53,13 +53,14 @@ function renderizarCards(profissionais) {
         const card = document.createElement("article");
         card.classList.add("card");
 
-        const id = profissional.id_profissional; 
+        
         const nome = profissional.nome_profissional || "Profissional";
         const idade = profissional.idade_profissional || "Não informada";
         const experiencia = profissional.tempo_experiencia || "0";
         const fotoPerfil = profissional.foto_url || "../cuidadopuro_teste/img/Design sem nome (2).png";
         const avaliacao = profissional.avaliacao || "5.0";
         const localizacao = profissional.endereco_profissional || "Não informado";
+        const id = profissional.id_profissional || profissional.id;
 
         card.innerHTML = `
             <img src="${fotoPerfil}" alt="Perfil de ${nome}">
@@ -99,8 +100,6 @@ function filtrarProfissionais() {
     const inputBusca = document.getElementById("inputBusca");
     const selectEspecialidade = document.getElementById("selectEspecialidade");
     const selectCidade = document.getElementById("selectCidade");
-
-    if (!inputBusca) return;
 
     const termoBusca = inputBusca.value.toLowerCase().trim();
     const especialidadeSelecionada = selectEspecialidade ? selectEspecialidade.value : "todos";
