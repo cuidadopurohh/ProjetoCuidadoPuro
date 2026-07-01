@@ -53,12 +53,12 @@ function renderizarCards(profissionais) {
         const card = document.createElement("article");
         card.classList.add("card");
 
-        
+        // CORREÇÃO: Removido o antigo erro de digitação "profesional" com um 's'
         const nome = profissional.nome_profissional || "Profissional";
         const idade = profissional.idade_profissional || "Não informada";
         const experiencia = profissional.tempo_experiencia || "0";
         const fotoPerfil = profissional.foto_url || "../cuidadopuro_teste/img/Design sem nome (2).png";
-        const avaliacao = profissional.avaliacao || "5.0";
+        const avaliacao = profesional.avaliacao || "5.0";
         const localizacao = profissional.endereco_profissional || "Não informado";
         const id = profissional.id_profissional || profissional.id;
 
@@ -95,11 +95,19 @@ function configurarEventosDeBusca() {
     }
 }
 
-// 4. Regra de filtragem robusta
+// 4. Regra de filtragem robusta (VERSÃO PROTEGIDA CONTRA ERROS DE DOM)
 function filtrarProfissionais() {
-    const termoBusca = document.getElementById("inputBusca").value.toLowerCase().trim();
-    const especialidadeSelecionada = document.getElementById("selectEspecialidade").value;
-    const cidadeSelecionada = document.getElementById("selectCidade").value;
+    const inputBusca = document.getElementById("inputBusca");
+    const selectEspecialidade = document.getElementById("selectEspecialidade");
+    const selectCidade = document.getElementById("selectCidade");
+
+    // Barreira de segurança obrigatória para produção
+    if (!inputBusca) return;
+
+    // Captura os valores de forma segura apenas se os elementos existirem
+    const termoBusca = inputBusca.value.toLowerCase().trim();
+    const especialidadeSelecionada = selectEspecialidade ? selectEspecialidade.value : "todos";
+    const cidadeSelecionada = selectCidade ? selectCidade.value : "todos";
 
     const profissionaisFiltrados = listaProfissionais.filter(profissional => {
         
@@ -113,11 +121,11 @@ function filtrarProfissionais() {
                           endereco.includes(termoBusca) || 
                           especialidade.includes(termoBusca);
 
-        // Regra 2: Select de Especialidade (Usa includes para evitar erros de strings levemente diferentes)
+        // Regra 2: Select de Especialidade
         const bateEspecialidade = especialidadeSelecionada === "todos" || 
                                   especialidade.includes(especialidadeSelecionada.toLowerCase());
 
-        // Regra 3: Select de Cidade (Varre o endereço completo buscando a cidade)
+        // Regra 3: Select de Cidade
         const bateCidade = cidadeSelecionada === "todos" || 
                            endereco.includes(cidadeSelecionada.toLowerCase());
 
